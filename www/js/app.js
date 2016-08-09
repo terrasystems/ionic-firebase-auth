@@ -1,13 +1,24 @@
+'use strict';
 // Ionic Starter App
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase', 'ngCordovaOauth'])
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase'])
+.constant('FireConfig', {
+  apiKey: 'AIzaSyADaCoMiJ3BA4F6IKEgVm1DwlEh__3_DJE',
+  authDomain: 'voznik.firebaseapp.com',
+  databaseURL: 'https://voznik.firebaseio.com',
+  storageBucket: 'project-5266200471425252184.appspot.com'
+})
 
-.run(function($ionicPlatform) {
+.constant('OAUTHs', {
+  google: '14791386540-dah9o8e2mnekkb34s19266mrgaevh8mv.apps.googleusercontent.com',
+  facebook: '1744011682503469',
+  github: 'f0b51334b821109d89f3, ff030739772199584e05726deba1b2308e9b9df1'
+})
+
+.run(function($ionicPlatform, FireConfig) {
+  // Initialize the Firebase SDK
+  firebase.initializeApp(FireConfig);
+  //
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -72,7 +83,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     views: {
       'tab-account': {
         templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+        controller: 'AccountCtrl',
+        resolve: {
+          // controller will not be loaded until $requireSignIn resolves
+          // Auth refers to our $firebaseAuth wrapper in the factory below
+          'currentAuth': function(Auth) {
+            // $requireSignIn returns a promise so the resolve waits for it to complete
+            // If the promise is rejected, it will throw a $stateChangeError (see above)
+            /*return Auth.$requireSignIn();*/
+
+            // $waitForSignIn returns a promise so the resolve waits for it to complete
+            return Auth.$waitForSignIn();
+          }
+        }
       }
     }
   });

@@ -2,42 +2,41 @@
   <ion-content class="padding">
     <div ng-if="authData.facebook" class="list card">
       <div class="item item-avatar">
-        <div class="item-image facebook-avatar" back-img="{{authData.facebook.cachedUserProfile.picture.data.url}}"></div>
-        <h2>{{authData.facebook.displayName}}</h2>
+        <div class="item-image facebook-avatar" back-img="{{authData.facebook[0].photoURL}}"></div>
+        <h2>{{authData.facebook[0].displayName}}</h2>
         <p>Facebook</p>
       </div>
 
     </div>
 
-    <div ng-if="authData.twitter" class="list card">
+    <div ng-if="authData.google" class="list card">
       <div class="item item-avatar">
-        <img ng-src="{{authData.twitter.cachedUserProfile.profile_image_url_https}}" alt="">
-        <h2>{{authData.twitter.displayName}}</h2>
-        <p>{{authData.twitter.username}}</p>
-        <p>Twitter</p>
-      </div>
-      <div class="item item-body">
-        <p>{{authData.twitter.cachedUserProfile.description}}</p>
+        <img ng-src="{{authData.google[0].photoURL}}" alt="">
+        <h2>{{authData.google[0].displayName}}</h2>
+        <p>{{authData.google[0].username}}</p>
+        <p>Google</p>
       </div>
     </div>
 
-
-
     <div ng-if="authData.github" class="list card">
       <div class="item item-avatar">
-        <img ng-src="{{authData.github.cachedUserProfile.avatar_url}}" alt="">
-        <h2>{{authData.github.displayName}}</h2>
-        <p>{{authData.github.username}}</p>
+        <img ng-src="{{authData.github[0].photoURL}}" alt="">
+        <h2>{{authData.github[0].displayName}}</h2>
+        <p>{{authData.github[0].username}}</p>
         <p>Github</p>
       </div>
     </div>
 
+    <div style="text-align:center">
+      <button class="button button-assertive icon ion-social-google button-round" ng-click="login('google')" ng-disabled="authData.google"></button>
+      <button class="button button-positive icon ion-social-facebook button-round" ng-click="login('facebook')" ng-disabled="authData.facebook"></button>
+      <button class="button button-royal icon ion-social-github button-round" ng-click="login('github')" ng-disabled="true"></button>
 
-<div style="text-align:center">
-    <button class="button button-calm icon ion-social-twitter button-round" ng-click="login('twitter')"></button>
-    <button class="button button-positive icon ion-social-facebook button-round" ng-click="login('facebook')"></button>
-    <button class="button button-royal icon ion-social-github button-round" ng-click="login('github')"></button>
+    </div>
 
-</div>
+    <div class="bar-footer">
+      <button ng-if="authData" class="button button-block button-assertive icon ion-log-out" ng-click="logout()">Logout</button>
+
+    </div>
   </ion-content>
 </ion-view>
